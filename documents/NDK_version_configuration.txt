@@ -1,0 +1,25 @@
+Message Warning
+
+    Your project is configured with Android NDK 26.3.11579264, but the following plugin(s) depend on a different Android NDK version:
+    - path_provider_android requires Android NDK 27.0.12077973
+    Fix this issue by using the highest Android NDK version (they are backward compatible).
+    Add the following to C:\Work\Flutter-Spotify\android\app\build.gradle.kts:
+
+        android {
+            ndkVersion = "27.0.12077973"
+            ...
+        }
+
+Fix step
+    1. Open Android Studio > SDK Manager
+    2. Search for "Android SDK"
+    3. Go to the SDK Tools tab
+    4. Enable "Show Package Details" in the bottom-right corner
+    5. Under NDK (Side by side), select the latest version
+    6. Uncheck any older versions to uninstall them automatically, or remove them manually from: 
+        C:\Users\<yourname>\AppData\Local\Android\Sdk\ndk\
+    7. Click Apply to install the latest NDK version
+    8. Open the file FlutterExtension.kt located at:
+        C:\{installed_flutter_path}\packages\flutter_tools\gradle\src\main\kotlin
+    9. Update the line where ndkVersion is declared:
+        val ndkVersion: String = "x.y.z"  // Replace with the latest installed version
