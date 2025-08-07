@@ -1,6 +1,18 @@
 class AppRoutes {
   static const home = _AppRoute(name: 'home', path: '/');
   static const splash = _AppRoute(name: 'splash', path: '/splash');
+  static const getStarted = _AppRoute(
+    name: 'get-started',
+    path: '/get-started',
+  );
+  static const chooseMode = _AppRoute(
+    name: 'choose-mode',
+    path: '/choose-mode',
+  );
+  static const signupOrSignin = _AppRoute(
+    name: 'signup-or-signin',
+    path: '/signup-or-signin',
+  );
 }
 
 class _AppRoute {
