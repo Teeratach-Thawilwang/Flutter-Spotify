@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:spotify/features/home/presentation/home.dart';
+import 'package:spotify/features/home/presentation/pages/home.dart';
 import 'package:spotify/features/splash/presentation/pages/splash.dart';
 import 'package:spotify/route/route_config.dart';
 
