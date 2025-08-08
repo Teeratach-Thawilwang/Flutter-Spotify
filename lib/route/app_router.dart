@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:spotify/features/authentication/presentation/pages/signin.dart';
+import 'package:spotify/features/authentication/presentation/pages/signup.dart';
 import 'package:spotify/features/authentication/presentation/pages/signup_or_signin.dart';
 import 'package:spotify/features/home/presentation/pages/home.dart';
 import 'package:spotify/features/onbording/presentation/pages/choose_mode.dart';
@@ -33,6 +35,16 @@ final GoRouter appRouter = GoRouter(
       name: AppRoutes.signupOrSignin.name,
       path: AppRoutes.signupOrSignin.path,
       builder: (context, state) => SignupOrSigninPage(),
+    ),
+    GoRoute(
+      name: AppRoutes.signup.name,
+      path: AppRoutes.signup.path,
+      builder: (context, state) => SignupPage(),
+    ),
+    GoRoute(
+      name: AppRoutes.signin.name,
+      path: AppRoutes.signin.path,
+      builder: (context, state) => SigninPage(),
     ),
   ],
 );

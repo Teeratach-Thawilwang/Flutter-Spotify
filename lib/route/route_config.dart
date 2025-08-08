@@ -13,6 +13,8 @@ class AppRoutes {
     name: 'signup-or-signin',
     path: '/signup-or-signin',
   );
+  static const signup = _AppRoute(name: 'signup', path: '/signup');
+  static const signin = _AppRoute(name: 'signin', path: '/signin');
 }
 
 class _AppRoute {

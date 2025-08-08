@@ -14,6 +14,28 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.transparent,
+      contentPadding: EdgeInsets.all(30),
+      hintStyle: const TextStyle(
+        color: Color(0xff383838),
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: Colors.black.withAlpha(40), width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: Colors.black.withAlpha(40), width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+      ),
+    ),
   );
 
   static final darkTheme = ThemeData(
@@ -26,6 +48,28 @@ class AppTheme {
         backgroundColor: AppColors.primary,
         textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.transparent,
+      contentPadding: EdgeInsets.all(30),
+      hintStyle: const TextStyle(
+        color: Color(0xffA7A7A7),
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: Colors.white.withAlpha(40), width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: Colors.white.withAlpha(40), width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.5),
       ),
     ),
   );
