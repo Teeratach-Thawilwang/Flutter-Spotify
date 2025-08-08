@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spotify/core/constants/app_images.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/core/theme/app_colors.dart';
+import 'package:spotify/route/route_config.dart';
 import 'package:spotify/shared/extensions/is_dark_mode.dart';
+import 'package:spotify/shared/widgets/appbar/app_bar.dart';
 import 'package:spotify/shared/widgets/button/basic_button.dart';
 
 class SignupOrSigninPage extends StatelessWidget {
@@ -12,8 +15,10 @@ class SignupOrSigninPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.isDarkMode ? Color(0xff1C1B1B) : null,
       body: Stack(
         children: [
+          BasicAppbar(),
           Align(
             alignment: Alignment.topRight,
             child: SvgPicture.asset(AppVectors.topPattern),
@@ -34,7 +39,7 @@ class SignupOrSigninPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(AppVectors.logo),
+                  SvgPicture.asset(AppVectors.logo, height: 70),
                   const SizedBox(height: 55),
                   const Text(
                     'Enjoy Listening To Music',
@@ -50,13 +55,15 @@ class SignupOrSigninPage extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 21),
+                  const SizedBox(height: 30),
                   Row(
                     children: [
                       Expanded(
                         flex: 1,
                         child: BasicButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.pushNamed(AppRoutes.signup.name);
+                          },
                           title: 'Register',
                           height: 70,
                         ),
@@ -65,9 +72,14 @@ class SignupOrSigninPage extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.pushNamed(AppRoutes.signin.name);
+                          },
                           style: TextButton.styleFrom(
                             minimumSize: const Size.fromHeight(70),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                           ),
                           child: Text(
                             'Sign in',
@@ -83,6 +95,7 @@ class SignupOrSigninPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 160),
                 ],
               ),
             ),
