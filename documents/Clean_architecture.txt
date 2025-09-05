@@ -1,0 +1,48 @@
+Layers
+    1. Presentation: UI & UX
+        - pages
+        - bloc / provider (for state management)
+        - widgets
+
+    2. Domain (Business): Business rule validations
+        - entities
+        - params (business validation)
+        - usecases
+        - repository interface
+
+    3. Data: Internal & External data, APIs, Caches, Logs, Security, Exceptions
+        - models (extends / implement entities)
+        - repository implement (process remote / local logic)
+        - data source (remote / local)
+
+
+Data Flow
+    Presentation
+      ⇅ raw params
+    bloc
+      ⇅ Domain - params
+    Domain - usecases 
+      ⇅
+    Domain - repository
+      ⇅  dependency injection / service locator
+    Data - repository
+      ⇅
+    Data - source
+
+
+Data Flow - Update profile Example
+ __________________________________________________________________________________________________________________
+|                    Actions                                         |                    Layer                    |
+| 1.  User click update profile on page                              |  Presentation - pages                       |
+| 2.  Widget validation                                              |  Presentation - widget                      |
+| 3.  Widget pass raw data to bloc / provider                        |  Presentation - widget, bloc / provider     |
+| 4.  Bloc / provider create params (business validation)            |  Presentation - bloc / provider             |
+| 5.  Bloc / provider call usecase                                   |  Domain - usecase                           |
+| 6.  Usecases call repository interface                             |  Domain - repository interface              |
+| 7.  Service locator call repository implement                      |  Data - repository implement                |
+| 8.  Repository implement call data source                          |  Data - data source                         |
+| 9.  Data source return data/models object                          |  Data - data source, models                 |
+| 10. Repository implement return domain/entities object (optional)  |  Data - repository implement                |
+| 11. Usecases return domain/entities object (optional)              |  Domain - usecase                           |
+| 12. Bloc update state                                              |  Presentation - bloc / provider             |
+| 13. Widget update UI                                               |  Presentation - page, widget                |
