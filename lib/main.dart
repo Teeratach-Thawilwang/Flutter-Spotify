@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotify/app.dart';
 import 'package:spotify/firebase_options.dart';
+import 'package:spotify/service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,5 +15,6 @@ Future<void> main() async {
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initializeDependencies();
   runApp(const App());
 }
