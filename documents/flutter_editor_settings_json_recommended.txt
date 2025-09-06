@@ -1,4 +1,4 @@
-settings.json
+vscode editor settings.json
 
     "[dart]": {
         // Automatically format code on save and during typing of certain characters
