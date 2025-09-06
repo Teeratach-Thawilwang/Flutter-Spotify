@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -34,10 +35,15 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
   Future<Either<String, String>> signup(SignupUsecaseParams params) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      var data = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: params.email,
         password: params.password,
       );
+
+      FirebaseFirestore.instance.collection('Users').add({
+        'name': params.fullName,
+        'email': data.user?.email,
+      });
 
       return Right('Signup was successful.');
     } on FirebaseAuthException catch (e) {
