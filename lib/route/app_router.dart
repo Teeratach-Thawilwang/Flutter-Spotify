@@ -2,10 +2,10 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify/features/authentication/presentation/pages/signin.dart';
 import 'package:spotify/features/authentication/presentation/pages/signup.dart';
 import 'package:spotify/features/authentication/presentation/pages/signup_or_signin.dart';
-import 'package:spotify/features/home/presentation/pages/home.dart';
-import 'package:spotify/features/onbording/presentation/pages/choose_mode.dart';
-import 'package:spotify/features/onbording/presentation/pages/get_started.dart';
-import 'package:spotify/features/splash/presentation/pages/splash.dart';
+import 'package:spotify/pages/home.dart';
+import 'package:spotify/pages/choose_mode.dart';
+import 'package:spotify/pages/get_started.dart';
+import 'package:spotify/pages/splash.dart';
 import 'package:spotify/route/route_config.dart';
 
 final GoRouter appRouter = GoRouter(

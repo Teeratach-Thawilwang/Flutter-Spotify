@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify/core/constants/app_images.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/route/route_config.dart';
-import 'package:spotify/shared/widgets/button/basic_button.dart';
+import 'package:spotify/common/widgets/button/basic_button.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
