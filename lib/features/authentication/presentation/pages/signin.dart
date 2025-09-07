@@ -6,9 +6,9 @@ import 'package:spotify/features/authentication/domain/params/signin_usecase_par
 import 'package:spotify/features/authentication/domain/usecases/signin_usecase.dart';
 import 'package:spotify/route/route_config.dart';
 import 'package:spotify/service_locator.dart';
-import 'package:spotify/shared/extensions/is_dark_mode.dart';
-import 'package:spotify/shared/widgets/appbar/app_bar.dart';
-import 'package:spotify/shared/widgets/button/basic_button.dart';
+import 'package:spotify/common/extensions/is_dark_mode.dart';
+import 'package:spotify/common/widgets/appbar/app_bar.dart';
+import 'package:spotify/common/widgets/button/basic_button.dart';
 
 class SigninPage extends StatelessWidget {
   SigninPage({super.key});

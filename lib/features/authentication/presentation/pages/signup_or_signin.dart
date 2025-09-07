@@ -5,9 +5,9 @@ import 'package:spotify/core/constants/app_images.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/route/route_config.dart';
-import 'package:spotify/shared/extensions/is_dark_mode.dart';
-import 'package:spotify/shared/widgets/appbar/app_bar.dart';
-import 'package:spotify/shared/widgets/button/basic_button.dart';
+import 'package:spotify/common/extensions/is_dark_mode.dart';
+import 'package:spotify/common/widgets/appbar/app_bar.dart';
+import 'package:spotify/common/widgets/button/basic_button.dart';
 
 class SignupOrSigninPage extends StatelessWidget {
   const SignupOrSigninPage({super.key});

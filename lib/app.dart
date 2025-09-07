@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/core/theme/app_theme.dart';
 import 'package:spotify/route/app_router.dart';
-import 'package:spotify/shared/bloc/theme_cubit.dart';
+import 'package:spotify/common/bloc/theme_cubit.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
