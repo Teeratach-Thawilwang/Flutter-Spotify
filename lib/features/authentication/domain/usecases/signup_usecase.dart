@@ -6,7 +6,7 @@ import 'package:spotify/service_locator.dart';
 
 class SignupUsecase implements Usecase<Either, SignupUsecaseParams> {
   @override
-  Future<Either> call({SignupUsecaseParams? params}) {
-    return sl<AuthRepository>().signup(params!);
+  Future<Either> call({SignupUsecaseParams? params}) async {
+    return await sl<AuthRepository>().signup(params!);
   }
 }
