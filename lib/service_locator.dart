@@ -7,6 +7,7 @@ import 'package:spotify/features/authentication/domain/usecases/signup_usecase.d
 import 'package:spotify/features/song/data/repositories/song_repository_impl.dart';
 import 'package:spotify/features/song/data/sources/song_firebase_service.dart';
 import 'package:spotify/features/song/domain/repositories/song_repository.dart';
+import 'package:spotify/features/song/domain/usecases/add_or_remove_favorite_song.dart';
 import 'package:spotify/features/song/domain/usecases/get_news_songs.dart';
 import 'package:spotify/features/song/domain/usecases/get_play_list.dart';
 
@@ -22,4 +23,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SongRepository>(SongRepositoryImpl());
   sl.registerSingleton<GetNewsSongsUsecase>(GetNewsSongsUsecase());
   sl.registerSingleton<GetPlayListUsecase>(GetPlayListUsecase());
+  sl.registerSingleton<AddOrRemoveFavoriteSongUsecase>(
+    AddOrRemoveFavoriteSongUsecase(),
+  );
 }
