@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify/features/authentication/presentation/pages/signin.dart';
 import 'package:spotify/features/authentication/presentation/pages/signup.dart';
 import 'package:spotify/features/authentication/presentation/pages/signup_or_signin.dart';
+import 'package:spotify/features/song/domain/entities/song_entity.dart';
+import 'package:spotify/features/song/presentation/pages/song_player.dart';
 import 'package:spotify/pages/home.dart';
 import 'package:spotify/pages/choose_mode.dart';
 import 'package:spotify/pages/get_started.dart';
@@ -45,6 +47,14 @@ final GoRouter appRouter = GoRouter(
       name: AppRoutes.signin.name,
       path: AppRoutes.signin.path,
       builder: (context, state) => SigninPage(),
+    ),
+    GoRoute(
+      name: AppRoutes.songPlayer.name,
+      path: AppRoutes.songPlayer.path,
+      builder: (context, state) {
+        final song = state.extra as SongEntity;
+        return SongPlayer(songEntity: song);
+      },
     ),
   ],
 );

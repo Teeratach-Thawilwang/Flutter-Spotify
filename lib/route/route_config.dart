@@ -15,6 +15,8 @@ class AppRoutes {
   );
   static const signup = _AppRoute(name: 'signup', path: '/signup');
   static const signin = _AppRoute(name: 'signin', path: '/signin');
+
+  static const songPlayer = _AppRoute(name: 'song', path: '/song');
 }
 
 class _AppRoute {
