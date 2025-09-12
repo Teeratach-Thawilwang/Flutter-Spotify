@@ -5,8 +5,8 @@ import 'package:spotify/common/extensions/is_dark_mode.dart';
 import 'package:spotify/core/constants/app_urls.dart';
 import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
-import 'package:spotify/features/song/presentation/bloc/news_songs_cubit.dart';
-import 'package:spotify/features/song/presentation/bloc/news_songs_state.dart';
+import 'package:spotify/features/song/presentation/bloc/new_songs_cubit.dart';
+import 'package:spotify/features/song/presentation/bloc/new_songs_state.dart';
 import 'package:spotify/route/route_config.dart';
 
 class NewsSongs extends StatelessWidget {
@@ -15,19 +15,19 @@ class NewsSongs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NewsSongsCubit()..getNewsSongs(),
+      create: (_) => NewSongsCubit()..getNewsSongsStream(),
       child: SizedBox(
         height: 200,
-        child: BlocBuilder<NewsSongsCubit, NewsSongsState>(
+        child: BlocBuilder<NewSongsCubit, NewsSongsState>(
           builder: (context, state) {
-            if (state is NewsSongsLoading) {
+            if (state is NewSongsLoading) {
               return Container(
                 alignment: Alignment.center,
                 child: CircularProgressIndicator(),
               );
             }
 
-            if (state is NewsSongsLoaded) {
+            if (state is NewSongsLoaded) {
               return _songs(state.songs);
             }
 

@@ -6,6 +6,7 @@ import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
 import 'package:spotify/features/song/presentation/bloc/play_list_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/play_list_state.dart';
+import 'package:spotify/features/song/presentation/widgets/favorite_button.dart';
 import 'package:spotify/route/route_config.dart';
 
 class PlayList extends StatelessWidget {
@@ -14,7 +15,7 @@ class PlayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PlayListCubit()..getPlayList(),
+      create: (_) => PlayListCubit()..getPlayListStream(),
       child: BlocBuilder<PlayListCubit, PlayListState>(
         builder: (context, state) {
           if (state is PlayListLoading) {
@@ -48,7 +49,6 @@ class PlayList extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 30),
                   _songs(state.songs),
                 ],
               ),
@@ -64,6 +64,7 @@ class PlayList extends StatelessWidget {
   Widget _songs(List<SongEntity> songs) {
     return ListView.separated(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: songs.length,
       itemBuilder: (context, index) {
         return GestureDetector(
@@ -119,12 +120,9 @@ class PlayList extends StatelessWidget {
                 children: [
                   Text(songs[index].duration.toString().replaceAll('.', ':')),
                   SizedBox(width: 30),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_outline_outlined,
-                      color: Color(0xff6C6C6C),
-                    ),
+                  FavoriteButton(
+                    songId: songs[index].id,
+                    isFavorite: songs[index].isFavorite,
                   ),
                 ],
               ),

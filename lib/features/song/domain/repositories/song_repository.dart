@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:spotify/features/song/domain/entities/song_entity.dart';
 
 abstract class SongRepository {
-  Future<Either> getNewsSongs();
-  Future<Either> getPlayList();
+  Stream<List<SongEntity>> get getNewSongsStream;
+  Stream<List<SongEntity>> get getPlayListStream;
+  Future<Either> addOrRemoveFavoriteSong(String songId);
 }

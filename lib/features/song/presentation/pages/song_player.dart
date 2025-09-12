@@ -7,6 +7,7 @@ import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
 import 'package:spotify/features/song/presentation/bloc/song_player_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/song_player_state.dart';
+import 'package:spotify/features/song/presentation/widgets/favorite_button.dart';
 
 class SongPlayer extends StatelessWidget {
   final SongEntity songEntity;
@@ -86,13 +87,10 @@ class SongPlayer extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.favorite_outline_outlined,
-            size: 30,
-            color: Color(0xff6C6C6C),
-          ),
+        FavoriteButton(
+          songId: songEntity.id,
+          isFavorite: songEntity.isFavorite,
+          size: 30,
         ),
       ],
     );
