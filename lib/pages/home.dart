@@ -5,6 +5,8 @@ import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/common/extensions/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbar/app_bar.dart';
+import 'package:spotify/features/song/presentation/widgets/news_songs.dart';
+import 'package:spotify/features/song/presentation/widgets/play_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,6 +42,16 @@ class _HomePageState extends State<HomePage>
               child: _homeArtistCard(),
             ),
             _tabs(),
+            SizedBox(height: 30),
+            SizedBox(
+              height: 240,
+              child: TabBarView(
+                controller: _tabController,
+                children: [NewsSongs(), Container(), Container(), Container()],
+              ),
+            ),
+            SizedBox(height: 40),
+            PlayList(),
           ],
         ),
       ),
@@ -74,26 +86,29 @@ class _HomePageState extends State<HomePage>
       controller: _tabController,
       isScrollable: true,
       tabAlignment: TabAlignment.start,
-      labelColor: context.isDarkMode ? Colors.white : Colors.black,
+      labelColor: context.isDarkMode ? Color(0xffDBDBDB) : Colors.black,
+      unselectedLabelColor: context.isDarkMode
+          ? Color(0xff616161)
+          : Color(0xffBEBEBE),
       indicatorColor: AppColors.primary,
       dividerColor: Colors.transparent,
       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
       tabs: [
         Text(
           'News',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           'Videos',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           'Artists',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           'Podcasts',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ],
     );
