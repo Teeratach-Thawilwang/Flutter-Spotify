@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:spotify/features/authentication/data/source/auth_firebase_service.dart';
+import 'package:spotify/features/authentication/data/sources/auth_firebase_service.dart';
 import 'package:spotify/features/authentication/domain/params/signin_usecase_params.dart';
 import 'package:spotify/features/authentication/domain/params/signup_usecase_params.dart';
 import 'package:spotify/features/authentication/domain/repositories/auth_repository.dart';
