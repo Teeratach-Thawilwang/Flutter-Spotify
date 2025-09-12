@@ -29,18 +29,19 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.isDarkMode ? Color(0xff1C1B1B) : null,
-      appBar: BasicAppbar(
-        title: SvgPicture.asset(AppVectors.logo, height: 40),
-        hideBack: true,
-      ),
       body: SingleChildScrollView(
         clipBehavior: Clip.none,
         child: Column(
           children: [
+            BasicAppbar(
+              title: SvgPicture.asset(AppVectors.logo, height: 40),
+              hideBack: true,
+            ),
             Container(
-              transform: Matrix4.translationValues(0, -25, 0),
+              transform: Matrix4.translationValues(0, -10, 0),
               child: _homeArtistCard(),
             ),
+            SizedBox(height: 30),
             _tabs(),
             SizedBox(height: 30),
             SizedBox(
