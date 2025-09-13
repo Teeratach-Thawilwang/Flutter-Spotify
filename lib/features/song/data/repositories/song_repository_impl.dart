@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:spotify/features/song/data/sources/song_firebase_service.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
 import 'package:spotify/features/song/domain/repositories/song_repository.dart';
 import 'package:spotify/service_locator.dart';
 
 class SongRepositoryImpl extends SongRepository {
-  final _newSongsController = StreamController<List<SongEntity>>.broadcast();
-  final _playListController = StreamController<List<SongEntity>>.broadcast();
+  final _newSongsController = BehaviorSubject<List<SongEntity>>();
+  final _playListController = BehaviorSubject<List<SongEntity>>();
   List<SongEntity> _newSongs = [];
   List<SongEntity> _playList = [];
 

@@ -21,6 +21,7 @@ dependencies:
   dartz: ^0.10.1
   cloud_firestore: ^6.0.1
   just_audio: ^0.10.5
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
