@@ -18,12 +18,12 @@ class NewsSongs extends StatelessWidget {
       create: (_) => NewSongsCubit()..getNewsSongsStream(),
       child: SizedBox(
         height: 200,
-        child: BlocBuilder<NewSongsCubit, NewsSongsState>(
+        child: BlocBuilder<NewSongsCubit, NewSongsState>(
           builder: (context, state) {
             if (state is NewSongsLoading) {
               return Container(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: AppColors.primary),
               );
             }
 

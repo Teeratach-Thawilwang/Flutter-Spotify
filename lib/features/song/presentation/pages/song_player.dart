@@ -100,7 +100,7 @@ class SongPlayer extends StatelessWidget {
     return BlocBuilder<SongPlayerCubit, SongPlayerState>(
       builder: (context, state) {
         if (state is SongPlayerLoading) {
-          return CircularProgressIndicator();
+          return CircularProgressIndicator(color: AppColors.primary);
         }
         if (state is SongPlayerLoaded) {
           return Column(

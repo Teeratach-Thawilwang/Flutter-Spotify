@@ -21,7 +21,7 @@ class PlayList extends StatelessWidget {
           if (state is PlayListLoading) {
             return Container(
               alignment: Alignment.center,
-              child: const CircularProgressIndicator(),
+              child: const CircularProgressIndicator(color: AppColors.primary),
             );
           }
 
