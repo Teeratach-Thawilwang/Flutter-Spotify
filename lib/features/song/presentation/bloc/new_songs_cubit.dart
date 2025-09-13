@@ -5,7 +5,7 @@ import 'package:spotify/features/song/presentation/bloc/new_songs_state.dart';
 import 'package:spotify/features/song/domain/usecases/get_news_songs.dart';
 import 'package:spotify/service_locator.dart';
 
-class NewSongsCubit extends Cubit<NewsSongsState> {
+class NewSongsCubit extends Cubit<NewSongsState> {
   late final StreamSubscription _newSongsStreamSubScription;
 
   NewSongsCubit() : super(NewSongsLoading());
