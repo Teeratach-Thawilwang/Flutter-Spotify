@@ -11,7 +11,7 @@ class AppSnackBar {
   AppSnackBar({
     required this.context,
     required this.message,
-    required this.onUndo,
+    this.onUndo,
     this.duration = const Duration(seconds: 2),
   });
 
