@@ -8,4 +8,5 @@ class AppImages {
       '${basePath}authentication_background.png';
 
   static const String homeArtist = '${basePath}home_artist.png';
+  static const String spotifyLogo = '${basePath}spotify_logo.png';
 }
