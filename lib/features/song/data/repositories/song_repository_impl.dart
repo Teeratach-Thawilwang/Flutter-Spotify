@@ -6,8 +6,10 @@ import 'package:spotify/features/song/data/sources/song_firebase_service.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
 import 'package:spotify/features/song/domain/repositories/song_repository.dart';
 import 'package:spotify/service_locator.dart';
+import 'package:synchronized/synchronized.dart';
 
 class SongRepositoryImpl extends SongRepository {
+  final _lock = Lock();
   final _newSongsController = BehaviorSubject<List<SongEntity>>();
   final _playListController = BehaviorSubject<List<SongEntity>>();
   List<SongEntity> _newSongs = [];
@@ -57,28 +59,35 @@ class SongRepositoryImpl extends SongRepository {
 
   @override
   Future<Either<String, bool>> addOrRemoveFavoriteSong(String songId) async {
-    final either = await sl<SongFirebaseService>().addOrRemoveFavoriteSong(
-      songId,
-    );
+    return await _lock.synchronized(() async {
+      final either = await sl<SongFirebaseService>().addOrRemoveFavoriteSong(
+        songId,
+      );
 
-    either.fold((l) => {}, (isFavorite) {
-      _newSongs = _newSongs.map((song) {
-        if (song.id == songId) {
-          return song.copyWith(isFavorite: isFavorite);
-        }
-        return song;
-      }).toList();
-      _newSongsController.add(List.unmodifiable(_newSongs));
+      either.fold((l) => {}, (isFavorite) {
+        _newSongs = _newSongs.map((song) {
+          if (song.id == songId) {
+            return song.copyWith(isFavorite: isFavorite);
+          }
+          return song;
+        }).toList();
+        _newSongsController.add(List.unmodifiable(_newSongs));
 
-      _playList = _playList.map((song) {
-        if (song.id == songId) {
-          return song.copyWith(isFavorite: isFavorite);
-        }
-        return song;
-      }).toList();
-      _playListController.add(List.unmodifiable(_playList));
+        _playList = _playList.map((song) {
+          if (song.id == songId) {
+            return song.copyWith(isFavorite: isFavorite);
+          }
+          return song;
+        }).toList();
+        _playListController.add(List.unmodifiable(_playList));
+      });
+
+      return either;
     });
+  }
 
-    return either;
+  @override
+  Future<Either<String, List<SongEntity>>> getFavoriteSongs() async {
+    return await sl<SongFirebaseService>().getFavoriteSongs();
   }
 }
