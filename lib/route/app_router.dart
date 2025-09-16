@@ -7,6 +7,7 @@ import 'package:spotify/features/song/presentation/pages/song_player.dart';
 import 'package:spotify/pages/home.dart';
 import 'package:spotify/pages/choose_mode.dart';
 import 'package:spotify/pages/get_started.dart';
+import 'package:spotify/pages/profile.dart';
 import 'package:spotify/pages/splash.dart';
 import 'package:spotify/route/route_config.dart';
 
@@ -55,6 +56,11 @@ final GoRouter appRouter = GoRouter(
         final song = state.extra as SongEntity;
         return SongPlayer(songEntity: song);
       },
+    ),
+    GoRoute(
+      name: AppRoutes.profile.name,
+      path: AppRoutes.profile.path,
+      builder: (context, state) => Profile(),
     ),
   ],
 );

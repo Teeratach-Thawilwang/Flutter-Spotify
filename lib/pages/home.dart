@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spotify/core/constants/app_images.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/core/theme/app_colors.dart';
@@ -7,6 +8,7 @@ import 'package:spotify/common/extensions/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/features/song/presentation/widgets/news_songs.dart';
 import 'package:spotify/features/song/presentation/widgets/play_list.dart';
+import 'package:spotify/route/route_config.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,6 +38,15 @@ class _HomePageState extends State<HomePage>
             BasicAppbar(
               title: SvgPicture.asset(AppVectors.logo, height: 40),
               hideBack: true,
+              action: IconButton(
+                onPressed: () {
+                  context.pushNamed(AppRoutes.profile.name);
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: context.isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
             ),
             Container(
               transform: Matrix4.translationValues(0, -10, 0),
