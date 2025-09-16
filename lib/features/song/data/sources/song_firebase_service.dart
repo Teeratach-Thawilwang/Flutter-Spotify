@@ -9,6 +9,7 @@ abstract class SongFirebaseService {
   Future<Either<String, List<SongEntity>>> getPlayList();
   Future<Either<String, bool>> addOrRemoveFavoriteSong(String songId);
   Future<bool> isFavoriteSong(String songId);
+  Future<Either<String, List<SongEntity>>> getFavoriteSongs();
 }
 
 class SongFirebaseServiceImpl extends SongFirebaseService {
@@ -32,7 +33,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
       }
       return Right(songs);
     } catch (e) {
-      return Left('An error occured, Please try again.');
+      return Left('error: $e');
     }
   }
 
@@ -56,7 +57,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
       }
       return Right(songs);
     } catch (e) {
-      return Left('An error occured, Please try again.');
+      return Left('error: $e');
     }
   }
 
@@ -91,7 +92,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
 
       return Right(isFavorite);
     } catch (e) {
-      return Left('An error occured, Please try again.');
+      return Left('error: $e');
     }
   }
 
@@ -118,6 +119,41 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  Future<Either<String, List<SongEntity>>> getFavoriteSongs() async {
+    try {
+      List<SongEntity> favoriteSongs = [];
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+      var user = firebaseAuth.currentUser;
+      String uid = user!.uid;
+
+      QuerySnapshot favoriteSnapshot = await firebaseFirestore
+          .collection('Users')
+          .doc(uid)
+          .collection('Favorites')
+          .get();
+
+      for (var element in favoriteSnapshot.docs) {
+        String songId = element['songId'];
+        var song = await firebaseFirestore
+            .collection('Songs')
+            .doc(songId)
+            .get();
+        SongModel songModel = SongModel.fromJson(song.data()!);
+        songModel.id = songId;
+        songModel.isFavorite = true;
+
+        favoriteSongs.add(songModel.toEntity());
+      }
+
+      return Right(favoriteSongs);
+    } catch (e) {
+      return Left('error: $e');
     }
   }
 }
