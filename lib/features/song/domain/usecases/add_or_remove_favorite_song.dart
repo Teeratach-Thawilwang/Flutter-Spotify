@@ -5,7 +5,7 @@ import 'package:spotify/service_locator.dart';
 
 class AddOrRemoveFavoriteSongUsecase implements Usecase<Either, String> {
   @override
-  Future<Either> call({String? params}) async {
+  Future<Either<String, bool>> call({String? params}) async {
     return await sl<SongRepository>().addOrRemoveFavoriteSong(params!);
   }
 }
