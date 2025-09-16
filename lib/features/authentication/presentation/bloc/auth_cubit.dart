@@ -16,6 +16,12 @@ class AuthCubit extends HydratedCubit<AuthState> {
   @override
   AuthState? fromJson(Map<String, dynamic> json) {
     UserEntity userEntity = UserEntity.fromJson(json);
+    if (userEntity.userId == null &&
+        userEntity.email == null &&
+        userEntity.fullName == null) {
+      return AuthUnauthenticated();
+    }
+
     return AuthAuthenticated(userEntity: userEntity);
   }
 
@@ -24,6 +30,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
     if (state is AuthAuthenticated) {
       return state.userEntity.toJson();
     }
-    return null;
+    return {};
   }
 }
