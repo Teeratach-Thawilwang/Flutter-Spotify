@@ -9,6 +9,7 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
   final double iconButtonSize;
   final bool hideBack;
   final double elevation;
+  final Color? backgroundColor;
 
   const BasicAppbar({
     this.title,
@@ -17,6 +18,7 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.iconButtonSize = 40,
     this.hideBack = false,
     this.elevation = 0,
+    this.backgroundColor = Colors.transparent,
     super.key,
   });
 
@@ -24,7 +26,7 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       scrolledUnderElevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor,
       elevation: elevation,
       title: title ?? const Text(''),
       centerTitle: true,
