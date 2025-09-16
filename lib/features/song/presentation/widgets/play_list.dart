@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spotify/common/extensions/is_dark_mode.dart';
 import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
+import 'package:spotify/features/song/presentation/bloc/favorite_song_toggle_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/play_list_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/play_list_state.dart';
 import 'package:spotify/features/song/presentation/widgets/favorite_button.dart';
@@ -14,8 +15,11 @@ class PlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => PlayListCubit()..getPlayListStream(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => PlayListCubit()..getPlayListStream()),
+        BlocProvider(create: (context) => FavoriteSongToggleCubit()),
+      ],
       child: BlocBuilder<PlayListCubit, PlayListState>(
         builder: (context, state) {
           if (state is PlayListLoading) {
@@ -24,7 +28,6 @@ class PlayList extends StatelessWidget {
               child: const CircularProgressIndicator(color: AppColors.primary),
             );
           }
-
           if (state is PlayListLoaded) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
