@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spotify/common/extensions/go_router_extensions.dart';
 import 'package:spotify/common/widgets/appSnackBar/app_snack_bar.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/features/authentication/domain/params/signin_usecase_params.dart';
@@ -71,7 +72,10 @@ class SigninPage extends StatelessWidget {
                             if (user != null) {
                               context.read<AuthCubit>().signedIn(user);
                             }
-                            context.goNamed(AppRoutes.home.name);
+                            GoRouter.of(
+                              context,
+                            ).popUntilPath(AppRoutes.chooseMode.path);
+                            context.pushNamed(AppRoutes.home.name);
                           },
                         );
                       },
