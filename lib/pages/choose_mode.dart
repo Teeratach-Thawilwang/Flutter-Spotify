@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spotify/core/constants/app_images.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
+import 'package:spotify/features/authentication/presentation/bloc/auth_cubit.dart';
+import 'package:spotify/features/authentication/presentation/bloc/auth_state.dart';
 import 'package:spotify/route/route_config.dart';
 import 'package:spotify/common/bloc/theme_cubit.dart';
 import 'package:spotify/common/widgets/button/basic_button.dart';
@@ -136,11 +138,22 @@ class ChooseModePage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 70),
-                BasicButton(
-                  onPressed: () {
-                    context.pushNamed(AppRoutes.signupOrSignin.name);
-                  },
-                  title: 'Continue',
+                BlocProvider(
+                  create: (context) => AuthCubit(),
+                  child: BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      return BasicButton(
+                        onPressed: () {
+                          if (state is AuthAuthenticated) {
+                            context.pushNamed(AppRoutes.home.name);
+                          } else if (state is AuthUnauthenticated) {
+                            context.pushNamed(AppRoutes.signupOrSignin.name);
+                          }
+                        },
+                        title: 'Continue',
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

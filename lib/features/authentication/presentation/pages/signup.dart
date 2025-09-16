@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spotify/common/widgets/appSnackBar/app_snack_bar.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
 import 'package:spotify/features/authentication/domain/params/signup_usecase_params.dart';
 import 'package:spotify/features/authentication/domain/usecases/signup_usecase.dart';
+import 'package:spotify/features/authentication/presentation/bloc/auth_cubit.dart';
+import 'package:spotify/features/authentication/presentation/bloc/auth_state.dart';
 import 'package:spotify/route/route_config.dart';
 import 'package:spotify/service_locator.dart';
 import 'package:spotify/common/extensions/is_dark_mode.dart';
@@ -41,32 +45,41 @@ class SignupPage extends StatelessWidget {
               SizedBox(height: 16),
               _passwordTextField(context),
               SizedBox(height: 30),
-              BasicButton(
-                onPressed: () async {
-                  FocusScope.of(context).unfocus();
-
-                  var result = await sl<SignupUsecase>().call(
-                    params: SignupUsecaseParams(
-                      fullName: _fullName.text.toString(),
-                      email: _email.text.toString(),
-                      password: _password.text.toString(),
-                    ),
-                  );
-
-                  result.fold(
-                    (l) {
-                      var snackBar = SnackBar(
-                        content: Text(l),
-                        behavior: SnackBarBehavior.floating,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                    (r) {
-                      context.goNamed(AppRoutes.home.name);
-                    },
-                  );
-                },
-                title: 'Create Account',
+              BlocProvider(
+                create: (context) => AuthCubit(),
+                child: BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return BasicButton(
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        var result = await sl<SignupUsecase>().call(
+                          params: SignupUsecaseParams(
+                            fullName: _fullName.text.toString(),
+                            email: _email.text.toString(),
+                            password: _password.text.toString(),
+                          ),
+                        );
+                        result.fold(
+                          (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              AppSnackBar(
+                                context: context,
+                                message: error,
+                              ).showError(),
+                            );
+                          },
+                          (user) {
+                            if (user != null) {
+                              context.read<AuthCubit>().signedIn(user);
+                            }
+                            context.goNamed(AppRoutes.home.name);
+                          },
+                        );
+                      },
+                      title: 'Create Account',
+                    );
+                  },
+                ),
               ),
             ],
           ),
