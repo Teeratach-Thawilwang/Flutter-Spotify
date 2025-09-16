@@ -9,4 +9,7 @@ class NewSongsLoaded extends NewSongsState {
   NewSongsLoaded({required this.songs});
 }
 
-class NewsSongsLoadFailure extends NewSongsState {}
+class NewsSongsLoadFailure extends NewSongsState {
+  final String errorMessage;
+  NewsSongsLoadFailure({required this.errorMessage});
+}

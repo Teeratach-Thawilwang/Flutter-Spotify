@@ -19,7 +19,7 @@ class PlayListCubit extends Cubit<PlayListState> {
   Future<void> getPlayListStream() async {
     _playListStreamSubscription = sl<GetPlayListUsecase>().call().listen(
       (songs) => emit(PlayListLoaded(songs: songs)),
-      onError: (_) => emit(PlayListLoadFailure()),
+      onError: (error) => emit(PlayListLoadFailure(errorMessage: error)),
     );
   }
 }

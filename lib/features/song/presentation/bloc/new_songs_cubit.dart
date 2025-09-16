@@ -19,7 +19,7 @@ class NewSongsCubit extends Cubit<NewSongsState> {
   Future<void> getNewsSongsStream() async {
     _newSongsStreamSubScription = sl<GetNewsSongsUsecase>().call().listen(
       (songs) => emit(NewSongsLoaded(songs: songs)),
-      onError: (_) => emit(NewsSongsLoadFailure()),
+      onError: (error) => emit(NewsSongsLoadFailure(errorMessage: error)),
     );
   }
 }
