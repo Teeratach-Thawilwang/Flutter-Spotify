@@ -40,7 +40,9 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
                 maxHeight: iconButtonSize,
               ),
               onPressed: () {
-                context.pop();
+                if (context.canPop()) {
+                  context.pop();
+                }
               },
               icon: Container(
                 width: double.infinity,
