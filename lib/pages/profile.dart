@@ -60,6 +60,7 @@ class Profile extends StatelessWidget {
             ProfileInfo(),
             const SizedBox(height: 30),
             _favoriteSongs(),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -75,7 +76,7 @@ class Profile extends StatelessWidget {
         BlocProvider(create: (context) => FavoriteSongToggleCubit()),
       ],
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -120,7 +121,7 @@ class Profile extends StatelessWidget {
                       );
                     },
                     separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 16),
                   );
                 }
                 return Container();

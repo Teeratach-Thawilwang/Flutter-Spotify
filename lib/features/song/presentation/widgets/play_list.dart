@@ -134,7 +134,7 @@ class PlayList extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) {
-        return SizedBox(height: 30);
+        return SizedBox(height: 16);
       },
     );
   }

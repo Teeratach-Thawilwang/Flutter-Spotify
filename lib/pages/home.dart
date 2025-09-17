@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage>
             ),
             SizedBox(height: 40),
             PlayList(),
+            SizedBox(height: 20),
           ],
         ),
       ),
