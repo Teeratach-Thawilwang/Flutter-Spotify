@@ -15,7 +15,6 @@ class ProfileInfo extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileInfoCubit()..getProfile(),
       child: Container(
-        height: MediaQuery.of(context).size.height / 2.8,
         width: double.infinity,
         decoration: BoxDecoration(
           color: context.isDarkMode ? Color(0xff2c2b2b) : Colors.white,
@@ -93,6 +92,7 @@ class ProfileInfo extends StatelessWidget {
             _followInfo(context, 'Follower', profile.followerCount),
           ],
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
