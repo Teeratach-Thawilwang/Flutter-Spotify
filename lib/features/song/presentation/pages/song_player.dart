@@ -47,6 +47,7 @@ class SongPlayer extends StatelessWidget {
               _songDetail(context),
               const SizedBox(height: 35),
               _songPlayer(context),
+              const SizedBox(height: 20),
             ],
           ),
         ),
