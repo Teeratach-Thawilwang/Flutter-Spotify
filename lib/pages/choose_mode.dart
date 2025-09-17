@@ -99,28 +99,33 @@ class ChooseModePage extends StatelessWidget {
     );
   }
 
-  Widget _chooseModeButton(String title, String appVectorIcon, Function onTap) {
+  Widget _chooseModeButton(
+    String title,
+    String appVectorIcon,
+    VoidCallback onTap,
+  ) {
     return Column(
       children: [
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => onTap(),
-          child: ClipOval(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                height: 70,
-                width: 70,
-                decoration: const BoxDecoration(
-                  color: Color.from(
-                    alpha: 0.5,
-                    red: 0.188,
-                    green: 0.224,
-                    blue: 0.235,
+        Material(
+          color: Colors.transparent,
+          shape: const CircleBorder(),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: onTap,
+            splashColor: Colors.white.withValues(alpha: 0.2),
+            highlightColor: Colors.white.withValues(alpha: 0.1),
+            child: ClipOval(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  height: 70,
+                  width: 70,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(48, 57, 60, 0.5),
+                    shape: BoxShape.circle,
                   ),
-                  shape: BoxShape.circle,
+                  child: SvgPicture.asset(appVectorIcon, fit: BoxFit.none),
                 ),
-                child: SvgPicture.asset(appVectorIcon, fit: BoxFit.none),
               ),
             ),
           ),
@@ -128,7 +133,7 @@ class ChooseModePage extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.w500,
