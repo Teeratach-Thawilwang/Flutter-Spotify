@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BasicButton extends StatelessWidget {
-  final VoidCallback onPressed;
+class BasicButton extends StatefulWidget {
+  final void Function()? onPressed;
   final String title;
   final double height;
 
@@ -13,11 +13,54 @@ class BasicButton extends StatelessWidget {
   });
 
   @override
+  State<BasicButton> createState() => _BasicButtonState();
+}
+
+class _BasicButtonState extends State<BasicButton> {
+  bool _isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(height)),
-      child: Text(title, style: const TextStyle(color: Colors.white)),
+      onPressed: onPressHandle,
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size.fromHeight(widget.height),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (_isLoading) ...[
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: 10),
+          ],
+          Text(widget.title, style: const TextStyle(color: Colors.white)),
+        ],
+      ),
     );
+  }
+
+  Future<void> onPressHandle() async {
+    if (widget.onPressed == null || _isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await (widget.onPressed!() as Future<void>);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }
