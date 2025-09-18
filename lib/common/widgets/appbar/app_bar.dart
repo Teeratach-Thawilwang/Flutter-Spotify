@@ -28,7 +28,7 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       backgroundColor: backgroundColor,
       elevation: elevation,
-      title: title ?? const Text(''),
+      title: title,
       centerTitle: true,
       leadingWidth: (2 * paddingLeft) + iconButtonSize,
       leading: hideBack
@@ -60,7 +60,7 @@ class BasicAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-      actions: [action ?? Container()],
+      actions: action != null ? [action!] : [],
     );
   }
 
