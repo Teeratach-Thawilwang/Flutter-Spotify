@@ -7,7 +7,6 @@ import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
 import 'package:spotify/features/song/presentation/bloc/favorite_song_list_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/favorite_song_list_state.dart';
-import 'package:spotify/features/song/presentation/bloc/favorite_song_toggle_cubit.dart';
 import 'package:spotify/features/song/presentation/widgets/favorite_button.dart';
 import 'package:spotify/route/route_config.dart';
 
@@ -21,7 +20,6 @@ class FavoriteSongList extends StatelessWidget {
         BlocProvider(
           create: (context) => FavoriteSongListCubit()..getFavoriteSongs(),
         ),
-        BlocProvider(create: (context) => FavoriteSongToggleCubit()),
       ],
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
@@ -134,6 +132,7 @@ class FavoriteSongList extends StatelessWidget {
               Text(favoriteSong.duration.toString().replaceAll('.', ':')),
               SizedBox(width: 30),
               FavoriteButton(
+                key: UniqueKey(),
                 songId: favoriteSong.id,
                 isFavorite: favoriteSong.isFavorite,
                 onPressed: () {

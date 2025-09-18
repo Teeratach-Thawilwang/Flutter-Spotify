@@ -5,7 +5,6 @@ import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/core/constants/app_urls.dart';
 import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/song/domain/entities/song_entity.dart';
-import 'package:spotify/features/song/presentation/bloc/favorite_song_toggle_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/song_player_cubit.dart';
 import 'package:spotify/features/song/presentation/bloc/song_player_state.dart';
 import 'package:spotify/features/song/presentation/widgets/favorite_button.dart';
@@ -36,7 +35,6 @@ class SongPlayer extends StatelessWidget {
                 '${AppUrls.songFirestorage}${songEntity.artist} - ${songEntity.title}.mp3?${AppUrls.mediaAlt}',
               ),
           ),
-          BlocProvider(create: (context) => FavoriteSongToggleCubit()),
         ],
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),

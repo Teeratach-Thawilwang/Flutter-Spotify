@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/widgets/appSnackBar/app_snack_bar.dart';
-import 'package:spotify/features/song/presentation/bloc/favorite_song_toggle_cubit.dart';
-import 'package:spotify/features/song/presentation/bloc/favorite_song_toggle_state.dart';
+import 'package:spotify/features/song/domain/usecases/add_or_remove_favorite_song.dart';
+import 'package:spotify/service_locator.dart';
 
-/* 
-  Need to wrap this widget with BlocProvider or MultiBlocProvider
-  Example: BlocProvider(create: (context) => FavoriteSongToggleCubit()),
-*/
-class FavoriteButton extends StatelessWidget {
+class FavoriteButton extends StatefulWidget {
   final String songId;
   final bool isFavorite;
   final double? size;
@@ -23,47 +18,77 @@ class FavoriteButton extends StatelessWidget {
   });
 
   @override
+  State<FavoriteButton> createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  late bool _isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.isFavorite;
+  }
+
+  @override
+  void didUpdateWidget(covariant FavoriteButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.isFavorite != widget.isFavorite) {
+      setIsFavorite(widget.isFavorite);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var localIsfavorite = isFavorite;
-    return BlocConsumer<FavoriteSongToggleCubit, FavoriteSongToggleState>(
-      listener: (context, state) {
-        if (state is FavoriteSongToggleUpdated) {
-          localIsfavorite = !localIsfavorite;
-        }
-        if (state is FavoriteSongToggleFailure) {
-          ScaffoldMessenger.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(
-              AppSnackBar(
-                context: context,
-                message: state.errorMessage,
-                onUndo: () async {
-                  var scaffoldMessenger = ScaffoldMessenger.of(context);
-                  await context
-                      .read<FavoriteSongToggleCubit>()
-                      .onToggleFavorite(songId);
-                  scaffoldMessenger.hideCurrentSnackBar();
-                },
-              ).showError(),
-            );
-        }
+    return IconButton(
+      onPressed: () async {
+        await onPressHandle(context, () {
+          if (widget.onPressed != null) {
+            widget.onPressed!();
+          }
+        });
       },
-      builder: (context, state) {
-        return IconButton(
-          onPressed: () async {
-            await context.read<FavoriteSongToggleCubit>().onToggleFavorite(
-              songId,
-            );
-            if (onPressed != null) {
-              onPressed!();
-            }
-          },
-          icon: Icon(
-            localIsfavorite ? Icons.favorite : Icons.favorite_outline_outlined,
-            size: size,
-            color: const Color(0xff6C6C6C),
-          ),
-        );
+      icon: Icon(
+        _isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,
+        size: widget.size,
+        color: const Color(0xff6C6C6C),
+      ),
+    );
+  }
+
+  void setIsFavorite(bool val) {
+    setState(() {
+      _isFavorite = val;
+    });
+  }
+
+  Future<void> onPressHandle(
+    BuildContext context,
+    VoidCallback onSuccess,
+  ) async {
+    var result = await sl<AddOrRemoveFavoriteSongUsecase>().call(
+      params: widget.songId,
+    );
+    result.fold(
+      (error) {
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            AppSnackBar(
+              context: context,
+              message: error,
+              onUndo: () async {
+                var scaffoldMessenger = ScaffoldMessenger.of(context);
+                onPressHandle(context, onSuccess);
+                scaffoldMessenger.hideCurrentSnackBar();
+              },
+            ).showError(),
+          );
+      },
+      (result) {
+        setIsFavorite(result);
+        onSuccess();
       },
     );
   }
