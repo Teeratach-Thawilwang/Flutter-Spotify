@@ -29,15 +29,13 @@ class ChooseModePage extends StatelessWidget {
             ),
           ),
           Container(color: Colors.black.withValues(alpha: 0.15)),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(child: _content(context)),
-                ),
-              );
-            },
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height,
+              ),
+              child: IntrinsicHeight(child: _content(context)),
+            ),
           ),
         ],
       ),
@@ -112,8 +110,8 @@ class ChooseModePage extends StatelessWidget {
           child: InkWell(
             customBorder: const CircleBorder(),
             onTap: onTap,
-            splashColor: Colors.white.withValues(alpha: 0.2),
-            highlightColor: Colors.white.withValues(alpha: 0.1),
+            splashColor: Colors.white.withValues(alpha: 0.4),
+            highlightColor: Colors.white.withValues(alpha: 0.3),
             child: ClipOval(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
