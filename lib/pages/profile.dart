@@ -85,39 +85,36 @@ class Profile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          BlocProvider(
-            create: (context) => AuthCubit(),
-            child: BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) {
-                return ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.red),
-                  title: const Text(
-                    'Sign out',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  onTap: () async {
-                    var result = await sl<SignoutUsecase>().call();
-                    result.fold(
-                      (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          AppSnackBar(
-                            context: context,
-                            message: error,
-                          ).showError(),
-                        );
-                      },
-                      (user) {
-                        context.read<AuthCubit>().signedOut();
-                        GoRouter.of(
-                          context,
-                        ).popUntilPath(AppRoutes.chooseMode.path);
-                        context.pushNamed(AppRoutes.signupOrSignin.name);
-                      },
-                    );
-                  },
-                );
-              },
-            ),
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              return ListTile(
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text(
+                  'Sign out',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () async {
+                  var result = await sl<SignoutUsecase>().call();
+                  result.fold(
+                    (error) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        AppSnackBar(
+                          context: context,
+                          message: error,
+                        ).showError(),
+                      );
+                    },
+                    (user) {
+                      context.read<AuthCubit>().signedOut();
+                      GoRouter.of(
+                        context,
+                      ).popUntilPath(AppRoutes.chooseMode.path);
+                      context.pushNamed(AppRoutes.signupOrSignin.name);
+                    },
+                  );
+                },
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.close),

@@ -77,22 +77,19 @@ class ChooseModePage extends StatelessWidget {
             ],
           ),
           SizedBox(height: isLandscape ? 30 : 70),
-          BlocProvider(
-            create: (context) => AuthCubit(),
-            child: BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) {
-                return BasicButton(
-                  onPressed: () {
-                    if (state is AuthAuthenticated) {
-                      context.pushNamed(AppRoutes.home.name);
-                    } else if (state is AuthUnauthenticated) {
-                      context.pushNamed(AppRoutes.signupOrSignin.name);
-                    }
-                  },
-                  title: 'Continue',
-                );
-              },
-            ),
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              return BasicButton(
+                onPressed: () {
+                  if (state is AuthAuthenticated) {
+                    context.pushNamed(AppRoutes.home.name);
+                  } else if (state is AuthUnauthenticated) {
+                    context.pushNamed(AppRoutes.signupOrSignin.name);
+                  }
+                },
+                title: 'Continue',
+              );
+            },
           ),
         ],
       ),

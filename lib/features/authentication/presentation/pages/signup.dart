@@ -63,44 +63,41 @@ class SignupPage extends StatelessWidget {
               SizedBox(height: 16),
               _passwordTextField(context),
               SizedBox(height: 30),
-              BlocProvider(
-                create: (context) => AuthCubit(),
-                child: BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    return BasicButton(
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        var result = await sl<SignupUsecase>().call(
-                          params: SignupUsecaseParams(
-                            fullName: _fullName.text.toString(),
-                            email: _email.text.toString(),
-                            password: _password.text.toString(),
-                          ),
-                        );
-                        result.fold(
-                          (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              AppSnackBar(
-                                context: context,
-                                message: error,
-                              ).showError(),
-                            );
-                          },
-                          (user) {
-                            if (user != null) {
-                              context.read<AuthCubit>().signedIn(user);
-                            }
-                            GoRouter.of(
-                              context,
-                            ).popUntilPath(AppRoutes.chooseMode.path);
-                            context.pushNamed(AppRoutes.home.name);
-                          },
-                        );
-                      },
-                      title: 'Create Account',
-                    );
-                  },
-                ),
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  return BasicButton(
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      var result = await sl<SignupUsecase>().call(
+                        params: SignupUsecaseParams(
+                          fullName: _fullName.text.toString(),
+                          email: _email.text.toString(),
+                          password: _password.text.toString(),
+                        ),
+                      );
+                      result.fold(
+                        (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            AppSnackBar(
+                              context: context,
+                              message: error,
+                            ).showError(),
+                          );
+                        },
+                        (user) {
+                          if (user != null) {
+                            context.read<AuthCubit>().signedIn(user);
+                          }
+                          GoRouter.of(
+                            context,
+                          ).popUntilPath(AppRoutes.chooseMode.path);
+                          context.pushNamed(AppRoutes.home.name);
+                        },
+                      );
+                    },
+                    title: 'Create Account',
+                  );
+                },
               ),
             ],
           ),
