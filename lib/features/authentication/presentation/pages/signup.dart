@@ -33,9 +33,26 @@ class SignupPage extends StatelessWidget {
         appBar: BasicAppbar(
           title: SvgPicture.asset(AppVectors.logo, height: 40),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-          child: Column(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(child: _content(context)),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+      child: Column(
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _titleText(),
@@ -87,8 +104,9 @@ class SignupPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        bottomNavigationBar: _signinText(context),
+          Expanded(child: SizedBox(height: 0)),
+          _signinText(context),
+        ],
       ),
     );
   }

@@ -43,6 +43,8 @@ class ChooseModePage extends StatelessWidget {
   }
 
   Widget _content(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var isLandscape = (size.width / size.height) > 1;
     return Padding(
       padding: const EdgeInsets.fromLTRB(40, 40, 40, 70),
       child: Column(
@@ -52,7 +54,7 @@ class ChooseModePage extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: SvgPicture.asset(AppVectors.logo),
           ),
-          const Spacer(),
+          Expanded(child: SizedBox(height: 30)),
           const Text(
             'Choose Mode',
             style: TextStyle(
@@ -74,7 +76,7 @@ class ChooseModePage extends StatelessWidget {
               }),
             ],
           ),
-          const SizedBox(height: 70),
+          SizedBox(height: isLandscape ? 30 : 70),
           BlocProvider(
             create: (context) => AuthCubit(),
             child: BlocBuilder<AuthCubit, AuthState>(

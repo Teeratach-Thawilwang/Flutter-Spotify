@@ -17,48 +17,59 @@ class GetStartedPage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
                 image: AssetImage(AppImages.introBackground),
               ),
             ),
           ),
           Container(color: Colors.black.withValues(alpha: 0.05)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 40, 40, 70),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SvgPicture.asset(AppVectors.logo),
-                ),
-                const Spacer(),
-                const Text(
-                  'Enjoy Listening To Music',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  '''Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. Sagittis enim purus sed phasellus. Cursus ornare id scelerisque aliquam.''',
-                  style: TextStyle(
-                    color: Color(0xff797979),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 40),
-                BasicButton(
-                  onPressed: () {
-                    context.goNamed(AppRoutes.chooseMode.name);
-                  },
-                  title: 'Get Started',
-                ),
-              ],
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height,
+              ),
+              child: IntrinsicHeight(child: _content(context)),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 40, 40, 70),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: SvgPicture.asset(AppVectors.logo),
+          ),
+          Expanded(flex: 1, child: SizedBox(height: 40)),
+          const Text(
+            'Enjoy Listening To Music',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            '''Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. Sagittis enim purus sed phasellus. Cursus ornare id scelerisque aliquam.''',
+            style: TextStyle(
+              color: Color(0xff797979),
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 40),
+          BasicButton(
+            onPressed: () {
+              context.goNamed(AppRoutes.chooseMode.name);
+            },
+            title: 'Get Started',
           ),
         ],
       ),

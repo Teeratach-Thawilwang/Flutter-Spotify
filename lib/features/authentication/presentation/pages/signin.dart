@@ -29,13 +29,30 @@ class SigninPage extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        backgroundColor: context.isDarkMode ? Color(0xff1C1B1B) : null,
         appBar: BasicAppbar(
           title: SvgPicture.asset(AppVectors.logo, height: 40),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-          child: Column(
+        backgroundColor: context.isDarkMode ? Color(0xff1C1B1B) : null,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(child: _content(context)),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+      child: Column(
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _titleText(),
@@ -51,14 +68,12 @@ class SigninPage extends StatelessWidget {
                     return BasicButton(
                       onPressed: () async {
                         FocusScope.of(context).unfocus();
-
                         var result = await sl<SigninUsecase>().call(
                           params: SigninUsecaseParams(
                             email: _email.text.toString(),
                             password: _password.text.toString(),
                           ),
                         );
-
                         result.fold(
                           (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -86,8 +101,9 @@ class SigninPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        bottomNavigationBar: _registerText(context),
+          Spacer(),
+          _registerText(context),
+        ],
       ),
     );
   }

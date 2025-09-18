@@ -15,10 +15,11 @@ class SignupOrSigninPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: BasicAppbar(),
       backgroundColor: context.isDarkMode ? Color(0xff1C1B1B) : null,
       body: Stack(
         children: [
-          BasicAppbar(),
           Align(
             alignment: Alignment.topRight,
             child: SvgPicture.asset(AppVectors.topPattern),
@@ -31,77 +32,94 @@ class SignupOrSigninPage extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             child: Image.asset(AppImages.authenticationBackground),
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(AppVectors.logo, height: 70),
-                  const SizedBox(height: 55),
-                  const Text(
-                    'Enjoy Listening To Music',
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 21),
-                  const Text(
-                    'Spotify is a proprietary Swedish audio streaming and media services provider',
-                    style: TextStyle(
-                      color: AppColors.grey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: BasicButton(
-                          onPressed: () {
-                            context.pushNamed(AppRoutes.signup.name);
-                          },
-                          title: 'Register',
-                          height: 70,
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        flex: 1,
-                        child: TextButton(
-                          onPressed: () {
-                            context.pushNamed(AppRoutes.signin.name);
-                          },
-                          style: TextButton.styleFrom(
-                            minimumSize: const Size.fromHeight(70),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: Text(
-                            'Sign in',
-                            style: TextStyle(
-                              color: context.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 160),
-                ],
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height,
               ),
+              child: _content(context),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _content(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var isLandscape = (size.width / size.height) > 1;
+    return Column(
+      children: [
+        SizedBox(height: isLandscape ? 60 : 180),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(AppVectors.logo, height: 70),
+              const SizedBox(height: 55),
+              const Text(
+                'Enjoy Listening To Music',
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 21),
+              const Text(
+                'Spotify is a proprietary Swedish audio streaming and media services provider',
+                style: TextStyle(
+                  color: AppColors.grey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 30),
+              _buttonRow(context),
+              if (isLandscape) SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buttonRow(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: BasicButton(
+            onPressed: () {
+              context.pushNamed(AppRoutes.signup.name);
+            },
+            title: 'Register',
+            height: 70,
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          flex: 1,
+          child: TextButton(
+            onPressed: () {
+              context.pushNamed(AppRoutes.signin.name);
+            },
+            style: TextButton.styleFrom(
+              minimumSize: const Size.fromHeight(70),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: Text(
+              'Sign in',
+              style: TextStyle(
+                color: context.isDarkMode ? Colors.white : Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
