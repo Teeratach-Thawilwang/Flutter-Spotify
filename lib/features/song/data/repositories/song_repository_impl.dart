@@ -17,6 +17,7 @@ class SongRepositoryImpl extends SongRepository {
 
   @override
   Stream<List<SongEntity>> get getNewSongsStream {
+    print('in getNewSongsStream ${_playList.isEmpty}');
     if (_newSongs.isEmpty) {
       getNewSongs();
     }
@@ -25,6 +26,7 @@ class SongRepositoryImpl extends SongRepository {
 
   @override
   Stream<List<SongEntity>> get getPlayListStream {
+    print('in getPlayListStream ${_playList.isEmpty}');
     if (_playList.isEmpty) {
       getPlayList();
     }
@@ -89,5 +91,13 @@ class SongRepositoryImpl extends SongRepository {
   @override
   Future<Either<String, List<SongEntity>>> getFavoriteSongs() async {
     return await sl<SongFirebaseService>().getFavoriteSongs();
+  }
+
+  @override
+  Future<void> clearSongs() async {
+    _newSongs = [];
+    _newSongsController.add(List.unmodifiable(_newSongs));
+    _playList = [];
+    _playListController.add(List.unmodifiable(_playList));
   }
 }

@@ -13,6 +13,7 @@ import 'package:spotify/features/song/data/repositories/song_repository_impl.dar
 import 'package:spotify/features/song/data/sources/song_firebase_service.dart';
 import 'package:spotify/features/song/domain/repositories/song_repository.dart';
 import 'package:spotify/features/song/domain/usecases/add_or_remove_favorite_song.dart';
+import 'package:spotify/features/song/domain/usecases/clear_songs.dart';
 import 'package:spotify/features/song/domain/usecases/get_favorite_songs.dart';
 import 'package:spotify/features/song/domain/usecases/get_news_songs.dart';
 import 'package:spotify/features/song/domain/usecases/get_play_list.dart';
@@ -34,6 +35,7 @@ Future<void> initializeDependencies() async {
     AddOrRemoveFavoriteSongUsecase(),
   );
   sl.registerSingleton<GetFavoriteSongsUsecase>(GetFavoriteSongsUsecase());
+  sl.registerSingleton<ClearSongsUsecase>(ClearSongsUsecase());
 
   sl.registerSingleton<ProfileFirebaseService>(ProfileFirebaseServiceImpl());
   sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl());

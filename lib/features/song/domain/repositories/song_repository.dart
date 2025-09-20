@@ -6,4 +6,5 @@ abstract class SongRepository {
   Stream<List<SongEntity>> get getPlayListStream;
   Future<Either<String, bool>> addOrRemoveFavoriteSong(String songId);
   Future<Either<String, List<SongEntity>>> getFavoriteSongs();
+  Future<void> clearSongs();
 }

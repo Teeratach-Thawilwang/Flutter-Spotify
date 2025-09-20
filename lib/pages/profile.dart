@@ -10,7 +10,7 @@ import 'package:spotify/features/authentication/domain/usecases/signout_usecase.
 import 'package:spotify/features/authentication/presentation/bloc/auth_cubit.dart';
 import 'package:spotify/features/authentication/presentation/bloc/auth_state.dart';
 import 'package:spotify/features/profile/presentation/widgets/profile_info.dart';
-
+import 'package:spotify/features/song/domain/usecases/clear_songs.dart';
 import 'package:spotify/features/song/presentation/widgets/favorite_song_list.dart';
 import 'package:spotify/route/route_config.dart';
 import 'package:spotify/service_locator.dart';
@@ -94,10 +94,14 @@ class Profile extends StatelessWidget {
                   style: TextStyle(color: Colors.red),
                 ),
                 onTap: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  final router = GoRouter.of(context);
                   var result = await sl<SignoutUsecase>().call();
+                  var isSignoutSuccess = false;
+
                   result.fold(
                     (error) {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                         AppSnackBar(
                           context: context,
                           message: error,
@@ -106,12 +110,15 @@ class Profile extends StatelessWidget {
                     },
                     (user) {
                       context.read<AuthCubit>().signedOut();
-                      GoRouter.of(
-                        context,
-                      ).popUntilPath(AppRoutes.chooseMode.path);
-                      context.pushNamed(AppRoutes.signupOrSignin.name);
+                      isSignoutSuccess = true;
                     },
                   );
+
+                  if (isSignoutSuccess) {
+                    await sl<ClearSongsUsecase>().call();
+                    router.popUntilPath(AppRoutes.chooseMode.path);
+                    router.pushNamed(AppRoutes.signupOrSignin.name);
+                  }
                 },
               );
             },
