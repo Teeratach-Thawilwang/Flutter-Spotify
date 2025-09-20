@@ -4,8 +4,8 @@ import 'package:spotify/features/song/presentation/bloc/song_player_state.dart';
 
 class SongPlayerCubit extends Cubit<SongPlayerState> {
   AudioPlayer audioPlayer = AudioPlayer();
-  Duration songDuration = Duration.zero;
   Duration songPosition = Duration.zero;
+  Duration songDuration = Duration.zero;
 
   SongPlayerCubit() : super(SongPlayerLoading()) {
     audioPlayer.positionStream.listen((position) {
@@ -16,7 +16,7 @@ class SongPlayerCubit extends Cubit<SongPlayerState> {
     });
 
     audioPlayer.durationStream.listen((duration) {
-      songDuration = duration!;
+      songDuration = duration ?? Duration.zero;
     });
   }
 
