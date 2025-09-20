@@ -17,7 +17,6 @@ class SongRepositoryImpl extends SongRepository {
 
   @override
   Stream<List<SongEntity>> get getNewSongsStream {
-    print('in getNewSongsStream ${_playList.isEmpty}');
     if (_newSongs.isEmpty) {
       getNewSongs();
     }
@@ -26,7 +25,6 @@ class SongRepositoryImpl extends SongRepository {
 
   @override
   Stream<List<SongEntity>> get getPlayListStream {
-    print('in getPlayListStream ${_playList.isEmpty}');
     if (_playList.isEmpty) {
       getPlayList();
     }
