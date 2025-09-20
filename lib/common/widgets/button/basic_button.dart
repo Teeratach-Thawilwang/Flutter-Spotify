@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class BasicButton extends StatefulWidget {
-  final void Function()? onPressed;
+  final FutureOr Function()? onPressed;
   final String title;
   final double height;
 
@@ -54,7 +56,7 @@ class _BasicButtonState extends State<BasicButton> {
     });
 
     try {
-      await (widget.onPressed!() as Future<void>);
+      await widget.onPressed!();
     } finally {
       if (mounted) {
         setState(() {
