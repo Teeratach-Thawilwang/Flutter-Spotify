@@ -4,7 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spotify/common/extensions/go_router_extensions.dart';
 import 'package:spotify/common/widgets/appSnackBar/app_snack_bar.dart';
+import 'package:spotify/common/widgets/authenTextFormField/authen_text_form_field.dart';
 import 'package:spotify/core/constants/app_vectors.dart';
+import 'package:spotify/core/utils/validation.dart';
 import 'package:spotify/features/authentication/domain/params/signin_usecase_params.dart';
 import 'package:spotify/features/authentication/domain/usecases/signin_usecase.dart';
 import 'package:spotify/features/authentication/presentation/bloc/auth_cubit.dart';
@@ -15,11 +17,17 @@ import 'package:spotify/common/extensions/is_dark_mode.dart';
 import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/common/widgets/button/basic_button.dart';
 
-class SigninPage extends StatelessWidget {
-  SigninPage({super.key});
+class SigninPage extends StatefulWidget {
+  const SigninPage({super.key});
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  @override
+  State<SigninPage> createState() => _SigninPageState();
+}
+
+class _SigninPageState extends State<SigninPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -52,51 +60,70 @@ class SigninPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
       child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _titleText(),
-              SizedBox(height: 30),
-              _emailTextField(context),
-              SizedBox(height: 16),
-              _passwordTextField(context),
-              SizedBox(height: 30),
-              BlocBuilder<AuthCubit, AuthState>(
-                builder: (context, state) {
-                  return BasicButton(
-                    onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      var result = await sl<SigninUsecase>().call(
-                        params: SigninUsecaseParams(
-                          email: _email.text.toString(),
-                          password: _password.text.toString(),
-                        ),
-                      );
-                      result.fold(
-                        (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            AppSnackBar(
-                              context: context,
-                              message: error,
-                            ).showError(),
-                          );
-                        },
-                        (user) {
-                          if (user != null) {
-                            context.read<AuthCubit>().signedIn(user);
-                          }
-                          GoRouter.of(
-                            context,
-                          ).popUntilPath(AppRoutes.chooseMode.path);
-                          context.pushNamed(AppRoutes.home.name);
-                        },
-                      );
-                    },
-                    title: 'Sign In',
-                  );
-                },
-              ),
-            ],
+          Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _titleText(),
+                SizedBox(height: 30),
+                AuthenTextFormField(
+                  hintText: 'Enter email',
+                  validator: emailValidation,
+                  onSaved: (value) {
+                    _email = value!;
+                  },
+                ),
+                SizedBox(height: 16),
+                AuthenTextFormField(
+                  hintText: 'Enter password',
+                  validator: passwordValidation,
+                  onSaved: (value) {
+                    _password = value!;
+                  },
+                ),
+                SizedBox(height: 30),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return BasicButton(
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        if (!_formKey.currentState!.validate()) {
+                          return;
+                        }
+                        _formKey.currentState!.save();
+                        var result = await sl<SigninUsecase>().call(
+                          params: SigninUsecaseParams(
+                            email: _email,
+                            password: _password,
+                          ),
+                        );
+                        result.fold(
+                          (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              AppSnackBar(
+                                context: context,
+                                message: error,
+                              ).showError(),
+                            );
+                          },
+                          (user) {
+                            if (user != null) {
+                              context.read<AuthCubit>().signedIn(user);
+                            }
+                            GoRouter.of(
+                              context,
+                            ).popUntilPath(AppRoutes.chooseMode.path);
+                            context.pushNamed(AppRoutes.home.name);
+                          },
+                        );
+                      },
+                      title: 'Sign In',
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
           Spacer(),
           _registerText(context),
@@ -110,24 +137,6 @@ class SigninPage extends StatelessWidget {
       'Sign In',
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
       textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _emailTextField(BuildContext context) {
-    return TextField(
-      controller: _email,
-      decoration: InputDecoration(
-        hintText: 'Enter Email',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
-    );
-  }
-
-  Widget _passwordTextField(BuildContext context) {
-    return TextField(
-      controller: _password,
-      decoration: InputDecoration(
-        hintText: 'Password',
-      ).applyDefaults(Theme.of(context).inputDecorationTheme),
     );
   }
 
