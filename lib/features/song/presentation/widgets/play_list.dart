@@ -14,10 +14,8 @@ class PlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => PlayListCubit()..getPlayListStream()),
-      ],
+    return BlocProvider(
+      create: (context) => PlayListCubit()..getPlayListStream(),
       child: BlocBuilder<PlayListCubit, PlayListState>(
         builder: (context, state) {
           if (state is PlayListLoading) {

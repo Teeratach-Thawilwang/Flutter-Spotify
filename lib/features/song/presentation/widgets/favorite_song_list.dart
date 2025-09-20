@@ -15,12 +15,8 @@ class FavoriteSongList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => FavoriteSongListCubit()..getFavoriteSongs(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => FavoriteSongListCubit()..getFavoriteSongs(),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
         child: Column(
