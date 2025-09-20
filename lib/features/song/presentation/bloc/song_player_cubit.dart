@@ -48,4 +48,8 @@ class SongPlayerCubit extends Cubit<SongPlayerState> {
   void updateSongPlayer() {
     emit(SongPlayerLoaded());
   }
+
+  void onSeekPosition(int position) {
+    audioPlayer.seek(Duration(seconds: position));
+  }
 }
