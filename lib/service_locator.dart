@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotify/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:spotify/features/authentication/data/sources/auth_firebase_service.dart';
 import 'package:spotify/features/authentication/domain/repositories/auth_repository.dart';
@@ -6,7 +7,8 @@ import 'package:spotify/features/authentication/domain/usecases/signin_usecase.d
 import 'package:spotify/features/authentication/domain/usecases/signout_usecase.dart';
 import 'package:spotify/features/authentication/domain/usecases/signup_usecase.dart';
 import 'package:spotify/features/profile/data/repositories/profile_repository_impl.dart';
-import 'package:spotify/features/profile/data/sources/profile_firebase_service.dart';
+import 'package:spotify/features/profile/data/sources/profile_local_service.dart';
+import 'package:spotify/features/profile/data/sources/profile_remote_service.dart';
 import 'package:spotify/features/profile/domain/repositories/profile_repository.dart';
 import 'package:spotify/features/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:spotify/features/song/data/repositories/song_repository_impl.dart';
@@ -21,12 +23,17 @@ import 'package:spotify/features/song/domain/usecases/get_play_list.dart';
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+  final prefs = await SharedPreferences.getInstance();
+  sl.registerSingleton<SharedPreferences>(prefs);
+
+  // Authentication
   sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceImpl());
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
   sl.registerSingleton<SignupUsecase>(SignupUsecase());
   sl.registerSingleton<SigninUsecase>(SigninUsecase());
   sl.registerSingleton<SignoutUsecase>(SignoutUsecase());
 
+  // Song
   sl.registerSingleton<SongFirebaseService>(SongFirebaseServiceImpl());
   sl.registerSingleton<SongRepository>(SongRepositoryImpl());
   sl.registerSingleton<GetNewsSongsUsecase>(GetNewsSongsUsecase());
@@ -37,7 +44,13 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetFavoriteSongsUsecase>(GetFavoriteSongsUsecase());
   sl.registerSingleton<ClearSongsUsecase>(ClearSongsUsecase());
 
-  sl.registerSingleton<ProfileFirebaseService>(ProfileFirebaseServiceImpl());
-  sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl());
+  // Profile
+  sl.registerSingleton<ProfileRemoteService>(ProfileFirebaseServiceImpl());
+  sl.registerSingleton<ProfileLocalService>(
+    ProfileLocalServiceImpl(prefs: sl()),
+  );
+  sl.registerSingleton<ProfileRepository>(
+    ProfileRepositoryImpl(remoteService: sl(), localService: sl()),
+  );
   sl.registerSingleton<GetProfileUsecase>(GetProfileUsecase());
 }

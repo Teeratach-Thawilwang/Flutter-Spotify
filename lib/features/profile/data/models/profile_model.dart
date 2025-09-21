@@ -22,9 +22,17 @@ class ProfileModel {
     followingCount = data['followingCount'] ?? 0;
     followerCount = data['followerCount'] ?? 0;
   }
-}
 
-extension ProfileModelX on ProfileModel {
+  Map<String, dynamic> toJson() {
+    return {
+      'name': displayName,
+      'email': email,
+      'imageUrl': imageUrl,
+      'followingCount': followingCount,
+      'followerCount': followerCount,
+    };
+  }
+
   ProfileEntity toEntity() {
     return ProfileEntity(
       displayName: displayName!,

@@ -2,15 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotify/features/profile/data/models/profile_model.dart';
-import 'package:spotify/features/profile/domain/entities/profile_entity.dart';
 
-abstract class ProfileFirebaseService {
-  Future<Either<String, ProfileEntity>> getProfile();
+abstract class ProfileRemoteService {
+  Future<Either<String, ProfileModel>> getProfile();
 }
 
-class ProfileFirebaseServiceImpl extends ProfileFirebaseService {
+class ProfileFirebaseServiceImpl extends ProfileRemoteService {
   @override
-  Future<Either<String, ProfileEntity>> getProfile() async {
+  Future<Either<String, ProfileModel>> getProfile() async {
     try {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -22,9 +21,7 @@ class ProfileFirebaseServiceImpl extends ProfileFirebaseService {
 
       ProfileModel profileModel = ProfileModel.fromJson(user.data()!);
       profileModel.imageUrl = firebaseAuth.currentUser?.photoURL;
-
-      ProfileEntity profileEntity = profileModel.toEntity();
-      return Right(profileEntity);
+      return Right(profileModel);
     } catch (e) {
       return Left('error: $e');
     }
