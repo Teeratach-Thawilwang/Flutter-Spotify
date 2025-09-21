@@ -1,7 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppUrls {
-  static const coverFirestorage =
-      'https://firebasestorage.googleapis.com/v0/b/flutter-spotify-5f565.firebasestorage.app/o/covers%2F';
-  static const songFirestorage =
-      'https://firebasestorage.googleapis.com/v0/b/flutter-spotify-5f565.firebasestorage.app/o/songs%2F';
+  static final coverFirestorage =
+      '${dotenv.env['FIREBASE_STORAGE_URL']}covers%2F';
+  static final songFirestorage =
+      '${dotenv.env['FIREBASE_STORAGE_URL']}songs%2F';
   static const mediaAlt = 'alt=media';
 }
