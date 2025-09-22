@@ -32,4 +32,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
       },
     );
   }
+
+  @override
+  Future<void> clearProfile() async {
+    await localService.clearProfile();
+  }
 }

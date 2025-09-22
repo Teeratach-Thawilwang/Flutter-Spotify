@@ -7,7 +7,7 @@ abstract class ProfileRemoteService {
   Future<Either<String, ProfileModel>> getProfile();
 }
 
-class ProfileFirebaseServiceImpl extends ProfileRemoteService {
+class ProfileRemoteServiceImpl extends ProfileRemoteService {
   @override
   Future<Either<String, ProfileModel>> getProfile() async {
     try {

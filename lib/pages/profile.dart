@@ -9,6 +9,7 @@ import 'package:spotify/core/theme/app_colors.dart';
 import 'package:spotify/features/authentication/domain/usecases/signout_usecase.dart';
 import 'package:spotify/features/authentication/presentation/bloc/auth_cubit.dart';
 import 'package:spotify/features/authentication/presentation/bloc/auth_state.dart';
+import 'package:spotify/features/profile/domain/usecases/clear_profile_usecase.dart';
 import 'package:spotify/features/profile/presentation/widgets/profile_info.dart';
 import 'package:spotify/features/song/domain/usecases/clear_songs.dart';
 import 'package:spotify/features/song/presentation/widgets/favorite_song_list.dart';
@@ -116,6 +117,7 @@ class Profile extends StatelessWidget {
 
                   if (isSignoutSuccess) {
                     await sl<ClearSongsUsecase>().call();
+                    await sl<ClearProfileUsecase>().call();
                     router.popUntilPath(AppRoutes.chooseMode.path);
                     router.pushNamed(AppRoutes.signupOrSignin.name);
                   }
