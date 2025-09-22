@@ -25,6 +25,7 @@ dependencies:
   synchronized: ^3.4.0
   shared_preferences: ^2.5.3
   flutter_dotenv: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -54,3 +55,9 @@ flutter:
           weight: 300
 # formatter:
 #   trailing_commas: preserve
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  min_sdk_android: 21
