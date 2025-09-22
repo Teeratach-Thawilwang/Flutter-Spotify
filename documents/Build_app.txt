@@ -1,0 +1,36 @@
+Android (Windows / macOS / Linux)
+
+1. เสียบโทรศัพท์ Android → เปิดโหมด Developer options + เปิด USB debugging
+2. เช็คว่าเจอ device แล้ว:
+    > flutter devices
+    ถ้าเจอชื่อมือถือ แปลว่าพร้อมใช้งาน
+
+3. รันแอปตรงไปที่เครื่องเลย (debug mode)
+    > flutter run
+    จะ compile debug build แล้วติดตั้งลงมือถือทันที
+
+4. Build APK สำหรับติดตั้งเอง
+    > flutter build apk --debug     # สำหรับ debug
+    > flutter build apk --release   # สำหรับ release (เร็วกว่า, ติดตั้งแจกได้)
+    
+    หลัง build เสร็จ ไฟล์จะอยู่ที่:
+    build/app/outputs/flutter-apk/app-debug.apk
+    build/app/outputs/flutter-apk/app-release.apk
+
+5. ติดตั้ง APK ลงเครื่อง (ผ่าน PowerShell / CMD)
+    > adb install -r build/app/outputs/flutter-apk/app-debug.apk
+    -r หมายถึง reinstall ทับของเก่าได้
+
+-------------------------------------------------------------------------------
+
+iOS (ต้องใช้ macOS + Xcode)
+
+1. เสียบ iPhone → เช็คว่าเจอ device
+    > flutter devices
+
+2. รันบนเครื่องจริง (debug)
+    > flutter run
+
+3. Build IPA เพื่อติดตั้ง
+    > flutter build ios --release
+    จากนั้นต้องไปใช้ Xcode / TestFlight เพื่อติดตั้งบนเครื่องจริง
