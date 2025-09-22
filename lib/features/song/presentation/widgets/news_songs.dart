@@ -14,26 +14,15 @@ class NewsSongs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => NewSongsCubit()..getNewsSongsStream(),
-      child: SizedBox(
-        height: 200,
-        child: BlocBuilder<NewSongsCubit, NewSongsState>(
-          builder: (context, state) {
-            if (state is NewSongsLoading) {
-              return Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(color: AppColors.primary),
-              );
-            }
-
-            if (state is NewSongsLoaded) {
-              return _songs(state.songs);
-            }
-
-            return Container();
-          },
-        ),
+    return SizedBox(
+      height: 200,
+      child: BlocBuilder<NewSongsCubit, NewSongsState>(
+        builder: (context, state) {
+          if (state is NewSongsLoaded) {
+            return _songs(state.songs);
+          }
+          return Container();
+        },
       ),
     );
   }

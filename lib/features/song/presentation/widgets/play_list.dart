@@ -14,49 +14,39 @@ class PlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PlayListCubit()..getPlayListStream(),
-      child: BlocBuilder<PlayListCubit, PlayListState>(
-        builder: (context, state) {
-          if (state is PlayListLoading) {
-            return Container(
-              alignment: Alignment.center,
-              child: const CircularProgressIndicator(color: AppColors.primary),
-            );
-          }
-          if (state is PlayListLoaded) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Playlist',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+    return BlocBuilder<PlayListCubit, PlayListState>(
+      builder: (context, state) {
+        if (state is PlayListLoaded) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Playlist',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        'See More',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
+                    ),
+                    Text(
+                      'See More',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
                       ),
-                    ],
-                  ),
-                  _songs(state.songs),
-                ],
-              ),
-            );
-          }
-
-          return Container();
-        },
-      ),
+                    ),
+                  ],
+                ),
+                _songs(state.songs),
+              ],
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 
