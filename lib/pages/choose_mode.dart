@@ -23,7 +23,7 @@ class ChooseModePage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.cover,
                 image: AssetImage(AppImages.chooseModeBackground),
               ),
             ),
