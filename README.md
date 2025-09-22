@@ -7,10 +7,19 @@ The project is focused on **clean architecture**, **BLoC state management**, and
 
 ---
 
+## 📺 Demo
+
+You can preview the latest version of the app by watching the demo clip:
+
+[📺 Watch Demo](https://drive.google.com/file/d/10M-ycwtW4tnO04xZIZq4L1HOgajgkBFC/view?usp=sharing)
+
+The demo shows the app based on the latest source code.
+
+---
+
 ## 📺 Tutorial Source
 
-Clone and implementation are based on the following YouTube tutorial:  
-👉 [Flutter UI Tutorial - Spotify Clone](https://www.youtube.com/watch?v=4TFbXepOjLI&t=5941s)
+Clone and implementation are based on the following YouTube tutorial: 👉 [Flutter UI Tutorial - Spotify Clone](https://www.youtube.com/watch?v=4TFbXepOjLI&t=5941s)
 
 However, the implementation has been significantly improved and extended with additional features, including clean architecture, BLoC state management, local caching, responsive design, authentication, and enhanced song player functionality that were not covered in the tutorial.
 
@@ -97,4 +106,4 @@ Figma design used as a reference:
 - Implemented ThemeData for both dark and light themes
 - Customized global themes using ThemeData (e.g., elevatedButtonTheme, inputDecorationTheme)
 
-#### 10. Testing & Maintainability [In progress]
+#### 10. Testing & Maintainability [Planned]
