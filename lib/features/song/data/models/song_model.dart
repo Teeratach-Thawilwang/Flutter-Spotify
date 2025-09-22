@@ -18,15 +18,17 @@ class SongModel {
     required this.isFavorite,
   });
 
-  SongModel.fromJson(Map<String, dynamic> data) {
-    title = data['title'];
-    artist = data['artist'];
-    duration = data['duration'];
-    releaseDate = data['releaseDate'];
+  factory SongModel.fromEntity(SongEntity entity) {
+    return SongModel(
+      id: entity.id,
+      title: entity.title,
+      artist: entity.artist,
+      duration: entity.duration,
+      releaseDate: entity.releaseDate,
+      isFavorite: entity.isFavorite,
+    );
   }
-}
 
-extension SongModelX on SongModel {
   SongEntity toEntity() {
     return SongEntity(
       id: id!,
@@ -36,5 +38,38 @@ extension SongModelX on SongModel {
       releaseDate: releaseDate!,
       isFavorite: isFavorite!,
     );
+  }
+
+  SongModel.fromJson(Map<String, dynamic> data) {
+    id = data['id'];
+    title = data['title'];
+    artist = data['artist'];
+    duration = data['duration'];
+    releaseDate = transformToTimestampOrNull(data['releaseDate']);
+    isFavorite = data['isFavorite'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'artist': artist,
+      'duration': duration,
+      'releaseDate': releaseDate?.millisecondsSinceEpoch,
+      'isFavorite': isFavorite,
+    };
+  }
+
+  Timestamp? transformToTimestampOrNull(dynamic time) {
+    if (time is Timestamp) {
+      return time;
+    }
+    if (time is int) {
+      releaseDate = Timestamp.fromMillisecondsSinceEpoch(time);
+    }
+    if (time is String) {
+      releaseDate = Timestamp.fromDate(DateTime.parse(time));
+    }
+    return null;
   }
 }

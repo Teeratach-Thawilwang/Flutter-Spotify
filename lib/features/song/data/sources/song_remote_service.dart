@@ -2,21 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotify/features/song/data/models/song_model.dart';
-import 'package:spotify/features/song/domain/entities/song_entity.dart';
 
-abstract class SongFirebaseService {
-  Future<Either<String, List<SongEntity>>> getNewSongs();
-  Future<Either<String, List<SongEntity>>> getPlayList();
+abstract class SongRemoteService {
+  Future<Either<String, List<SongModel>>> getNewSongs();
+  Future<Either<String, List<SongModel>>> getPlayList();
   Future<Either<String, bool>> addOrRemoveFavoriteSong(String songId);
   Future<bool> isFavoriteSong(String songId);
-  Future<Either<String, List<SongEntity>>> getFavoriteSongs();
+  Future<Either<String, List<SongModel>>> getFavoriteSongs();
 }
 
-class SongFirebaseServiceImpl extends SongFirebaseService {
+class SongRemoteServiceImpl extends SongRemoteService {
   @override
-  Future<Either<String, List<SongEntity>>> getNewSongs() async {
+  Future<Either<String, List<SongModel>>> getNewSongs() async {
     try {
-      List<SongEntity> songs = [];
+      List<SongModel> songs = [];
       var data = await FirebaseFirestore.instance
           .collection('Songs')
           .orderBy('releaseDate', descending: true)
@@ -29,7 +28,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
         bool isFavorite = await isFavoriteSong(element.reference.id);
         songModel.isFavorite = isFavorite;
 
-        songs.add(songModel.toEntity());
+        songs.add(songModel);
       }
       return Right(songs);
     } catch (e) {
@@ -38,9 +37,9 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
   }
 
   @override
-  Future<Either<String, List<SongEntity>>> getPlayList() async {
+  Future<Either<String, List<SongModel>>> getPlayList() async {
     try {
-      List<SongEntity> songs = [];
+      List<SongModel> songs = [];
       var data = await FirebaseFirestore.instance
           .collection('Songs')
           .orderBy('releaseDate', descending: true)
@@ -53,7 +52,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
         bool isFavorite = await isFavoriteSong(element.reference.id);
         songModel.isFavorite = isFavorite;
 
-        songs.add(songModel.toEntity());
+        songs.add(songModel);
       }
       return Right(songs);
     } catch (e) {
@@ -123,9 +122,9 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
   }
 
   @override
-  Future<Either<String, List<SongEntity>>> getFavoriteSongs() async {
+  Future<Either<String, List<SongModel>>> getFavoriteSongs() async {
     try {
-      List<SongEntity> favoriteSongs = [];
+      List<SongModel> favoriteSongs = [];
       final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -148,7 +147,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
         songModel.id = songId;
         songModel.isFavorite = true;
 
-        favoriteSongs.add(songModel.toEntity());
+        favoriteSongs.add(songModel);
       }
 
       return Right(favoriteSongs);
