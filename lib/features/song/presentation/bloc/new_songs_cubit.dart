@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/features/song/presentation/bloc/new_songs_state.dart';
-import 'package:spotify/features/song/domain/usecases/get_news_songs.dart';
+import 'package:spotify/features/song/domain/usecases/get_new_songs.dart';
 import 'package:spotify/service_locator.dart';
 
 class NewSongsCubit extends Cubit<NewSongsState> {
@@ -17,7 +17,7 @@ class NewSongsCubit extends Cubit<NewSongsState> {
   }
 
   Future<void> getNewsSongsStream() async {
-    _newSongsStreamSubScription = sl<GetNewsSongsUsecase>().call().listen(
+    _newSongsStreamSubScription = sl<GetNewSongsUsecase>().call().listen(
       (songs) => emit(NewSongsLoaded(songs: songs)),
       onError: (error) => emit(NewsSongsLoadFailure(errorMessage: error)),
     );
