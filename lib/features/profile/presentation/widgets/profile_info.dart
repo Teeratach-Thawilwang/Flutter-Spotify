@@ -27,6 +27,7 @@ class ProfileInfo extends StatelessWidget {
           builder: (context, state) {
             if (state is ProfileInfoLoading) {
               return Container(
+                margin: EdgeInsets.symmetric(vertical: 110),
                 alignment: Alignment.center,
                 child: const CircularProgressIndicator(
                   color: AppColors.primary,
